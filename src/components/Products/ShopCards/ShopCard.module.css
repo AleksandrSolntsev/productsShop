@@ -1,0 +1,22 @@
+.shopCard {
+  height: 250px;
+  width: 150px;
+  background-color: rgb(183, 240, 240);
+  border-radius: 10px;
+  margin-top: 20px;
+  text-align: center;
+  margin: auto;
+  margin-top: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px rgb(71, 68, 71);
+}
+.shopCard img {
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
+  margin: auto;
+}
+.productInfo {
+  padding-top: 10px;
+}

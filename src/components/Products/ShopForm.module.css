@@ -1,0 +1,78 @@
+h2 {
+  text-align: center;
+}
+.shopMainForm{
+  width: 80%;
+  height: 80%;
+  max-height: 800 px;
+  background: linear-gradient(90deg, rgba(158,244,197,1) 0%, rgba(148,255,147,1) 28%, rgba(104,219,145,1) 86%, rgba(0,212,255,1) 100%);
+  border-radius: 10px;
+  text-align: center;
+  margin: auto;
+  display: flex;
+
+}
+
+.productList {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  display: flex;
+  flex-wrap: wrap;
+  width: 50%;
+  
+  
+}
+.paginationBlock{
+  padding-top: 20px;
+  padding-bottom: 20px;
+  display: flex;
+  width: 60%;
+  margin: auto;
+  
+}
+ul{
+  padding-inline-start: 5px;
+  margin: auto;
+  cursor: pointer;
+}
+.selectedPage {
+  font-weight: bold;
+  
+}
+.filters {
+  margin-top: 20px;
+  width: 20%;
+  clear: both; 
+  text-align:right;
+}
+
+.filterInputWrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 6px;
+}
+.inputLabel {
+  text-align: left;
+  font-size: 14px;
+  margin-bottom: 4px;
+  text-decoration: underline;
+}
+
+.dateFilter {
+  display: flex;
+}
+.dateFilter p{
+  width: 100px;
+}
+.priceFilter p{
+  width: 100px;
+
+}
+.priceFilter {
+  display: flex;
+}
+.filtersButtons{
+  
+  text-align: center;
+}
