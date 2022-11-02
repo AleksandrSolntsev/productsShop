@@ -1,0 +1,9 @@
+.profileForm {
+  display: flex;
+  width: 70%;
+  height: 600 px;
+  background-color: #a6ff6b;
+  border-radius: 10px;
+  margin: auto;
+}
+

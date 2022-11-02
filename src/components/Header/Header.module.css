@@ -1,0 +1,26 @@
+.header {
+  display: flex;
+  width: 80%;
+  height: 70 px;
+  background: linear-gradient(90deg, rgba(158,244,197,1) 0%, rgba(148,255,147,1) 28%, rgba(104,219,145,1) 86%, rgba(0,212,255,1) 100%);
+  border-radius: 10px;
+  margin: auto;
+}
+.header img {
+  width: 50px;
+  height: 50px;
+  margin-top: 10px;
+}
+.header h1 {
+  color: #666666;
+  margin: auto;
+  margin-bottom: 10px;
+}
+.broccoli {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+.logout{
+  text-align: right;
+  cursor: pointer;
+}
