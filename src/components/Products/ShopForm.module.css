@@ -27,9 +27,9 @@ h2 {
   padding-top: 20px;
   padding-bottom: 20px;
   display: flex;
-  width: 60%;
+  width: 80%;
   margin: auto;
-  
+  flex-wrap: wrap;
 }
 ul{
   padding-inline-start: 5px;
@@ -45,6 +45,7 @@ ul{
   width: 20%;
   clear: both; 
   text-align:right;
+  padding-left: 20px;
 }
 
 .filterInputWrapper {
