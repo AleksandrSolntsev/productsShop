@@ -1,21 +1,42 @@
 .login {
   text-align: center;
   width: 50%;
-  height: 400px;
+  height: 300px;
   background-color: #d8d8d8;
   border-radius: 10px;
   margin: auto;
-  
-  
 }
-.authArea{
+.authArea {
+  width: 350px;
+  flex-direction: column;
   margin: auto;
+  padding: 6px;
 }
-
-h4 {
-  margin-top: 0px;
-  margin-bottom: 5px;
-}
-.errArea{
+.errArea {
   height: 20px;
+  font-size: small;
+  margin-left: 0px;
+}
+.loginArea {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  padding-left: 86px;
+}
+.inputLabel {
+  /* padding-left: 36%; */
+  text-align: left;
+  font-size: 14px;
+  width: 100px;
+  margin-bottom: 4px;
+}
+.passArea {
+  display: flex;
+  flex-direction: column;
+  padding: 2px;
+  padding-left: 86px;
+}
+.loginBtn {
+  width: 177px;
+  margin: auto;
 }

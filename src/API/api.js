@@ -1,3 +1,13 @@
+export const clearEmptyFields = (obj) =>
+  Object.keys(obj)
+    .filter((k) => obj[k])
+    .reduce((a, k) => ({ ...a, [k]: obj[k] }), {});
+
+export const buildURLQuery = (data) => {
+  return Object.entries(clearEmptyFields(data))
+    .map((pair) => (pair[1] ? pair.map(encodeURIComponent).join("=") : ""))
+    .join("&");
+};
 
 export const dataApi = {
   login(email, password) {
@@ -5,17 +15,6 @@ export const dataApi = {
       `http://dummy-api.d0.acom.cloud/api/auth/login?email=${email}&password=${password}`,
       { method: "post" }
     );
-    //     .then((response) => response.json());
-    // .then(data => console.log(data));
-  },
-  getData() {
-    let token = localStorage.getItem("token");
-    return fetch(`http://dummy-api.d0.acom.cloud/api/products?page=1`, {
-      method: "get",
-      headers: {
-        Authorization: "Bearer " + `${token}`,
-      },
-    }).then((response) => response.json());
   },
   getProducts(currentPage) {
     let token = localStorage.getItem("token");
@@ -28,18 +27,20 @@ export const dataApi = {
         },
       }
     );
-    // .then(response => response.json())
   },
-  getProductsFilters() {
+  getProductsFilters(filtersData) {
     let token = localStorage.getItem("token");
-
-    let { fname, ftprice, ffprice, ftdate, ffdate } = JSON.parse(
-      localStorage.getItem("filters")
-    );
-
+    const qParams = {
+      page: filtersData.page,
+      title: filtersData.fname,
+      from: filtersData.ffdate,
+      to: filtersData.ftdate,
+      price_to: filtersData.ftprice,
+      price_from: filtersData.ffprice,
+    };
+    console.log("filtersData", filtersData);
     return fetch(
-      `http://dummy-api.d0.acom.cloud/api/products?from=${ffdate}&to=${ftdate}
-      &price_from=${ffprice}&price_to=${ftprice}&title=${fname}`,
+      `http://dummy-api.d0.acom.cloud/api/products?${buildURLQuery(qParams)}`,
       {
         method: "get",
         headers: {
@@ -47,7 +48,6 @@ export const dataApi = {
         },
       }
     );
-    // .then(response => response.json())
   },
   getProfile() {
     let token = localStorage.getItem("token");
@@ -57,40 +57,12 @@ export const dataApi = {
         Authorization: "Bearer " + `${token}`,
       },
     });
-    // .then(response => response.json())
   },
-
   LogOff() {
     let token = localStorage.getItem("token");
     return fetch(`http://dummy-api.d0.acom.cloud/api/auth/logout`, {
       method: "post",
       Authorization: "Bearer " + `${token}`,
     });
-    // .then(response => response.json())
   },
 };
-
-// sendData(newMyIdea, achievments) {
-//   axios({
-//     method: "post",
-//     url: "http://localhost:5000/postideas",
-//     data: [...newMyIdea, ...achievments],
-//   });
-// },
-
-// getAchivsData() {
-//   return axios({
-//     method: "get",
-//     url: "http://localhost:5000/getideas",
-//   }).then(function(response) {
-//     return response.data.achivFilter;
-//   });
-// },
-// getIdeasData() {
-//   return axios({
-//     method: "get",
-//     url: "http://localhost:5000/getideas",
-//   }).then(function(response) {
-//     return response.data.ideasFilter;
-//   });
-// },

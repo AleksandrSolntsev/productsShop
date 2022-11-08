@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import { clearEmptyFields } from "../../API/api";
 
 import { getProductsThunk } from "../../Redux/productsReducer";
 import { setFilters } from "../../Redux/productsReducer";
@@ -27,56 +27,61 @@ const initialState = sortInputs.reduce((acc, item) => {
 }, {});
 
 const ShopForm = () => {
-  const products = useSelector((state) => state.products);
-
-  const currentPage = products.currentPage;
-
-  const datas = products.productsList;
-  const allPages = products.allPages;
   const dispatch = useDispatch();
 
-  const pagination = [];
+  const {
+    currentPage,
+    allPages,
+    productsList: datas,
+  } = useSelector((state) => state.products);
 
+  const [searchParams, setSearchParams] = useSearchParams("");
+  const [filtersValue, setFiltersValue] = useState(initialState);
+
+  const handleFilter = () => {
+    console.log(clearEmptyFields(filtersValue));
+    setSearchParams({ ...clearEmptyFields(filtersValue), page: currentPage });
+  };
+
+  useEffect(() => {
+    if (!searchParams.toString().length) {
+      dispatch(getProductsThunk(currentPage));
+    } else {
+      const filterParams = Object.fromEntries(searchParams.entries());
+
+      setFiltersValue((prev) => ({
+        ...prev,
+        ...filterParams,
+      }));
+
+      dispatch(
+        setFilters({
+          ...filterParams,
+        })
+      );
+    }
+  }, [searchParams]);
+
+  const pagination = [];
   for (let i = 1; i <= allPages; i++) {
     pagination.push(i);
   }
 
-  ////
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const filterParams = Object.fromEntries(searchParams.entries());
-
-  console.log("filterParams", filterParams);
-
-  const serchQuery =
-    searchParams.get("fname", "ffdate", "ftdate", "ffprice", "ftprice") || "";
-
-  useEffect(() => {
-    dispatch(getProductsThunk(currentPage));
-  }, [currentPage]);
-
-  const setPageHeandler = (value) => {
-    dispatch(getProductsThunk(value));
-  };
-
-  const [filtersValue, setFiltersValue] = useState(initialState);
-
   const filterChange = (e) => {
-    console.log(filtersValue);
     let names = e.target.name;
     const values = e.target.value;
     setFiltersValue({ ...filtersValue, [names]: values });
   };
-
-  const handleFilter = () => {
-    dispatch(setFilters(filtersValue));
+  const setPageHeandler = (value) => {
+    setSearchParams((prev) => {
+      return { ...Object.fromEntries(prev.entries()), page: value };
+    });
   };
-  ///////
+
   const handleClearFilter = () => {
-    setSearchParams({ ...filtersValue });
-    console.log(serchQuery);
+    setFiltersValue(initialState);
+    setSearchParams("");
   };
-
   return (
     <div>
       <h2>Product List</h2>
@@ -84,9 +89,8 @@ const ShopForm = () => {
         <div className={styles.filters}>
           {sortInputs.map((input) => (
             <div className={styles.filterInputWrapper} key={input.name}>
-              <lable className={styles.inputLabel}>{input.label} :</lable>
+              <label className={styles.inputLabel}>{input.label} :</label>
               <input
-                
                 name={input.name}
                 type={input.type}
                 placeholder={input.placeholder}
@@ -95,44 +99,6 @@ const ShopForm = () => {
               />
             </div>
           ))}
-          {/*         
-        <div className={styles.dateFilter}>
-          <p>From date</p>
-          <input
-            name="ffdate"
-            type="date"
-            placeholder=""
-            onChange={filterChange}
-            value={filtersValue.ffdate}
-          />
-          <p>To date</p>
-          <input
-            name="ftdate"
-            type="date"
-            placeholder=""
-            onChange={filterChange}
-            value={filtersValue.ftdate}
-          />
-        </div>
-
-        <div className={styles.priceFilter}>
-          <p>From price</p>
-          <input
-            name="ffprice"
-            type="text"
-            placeholder="$"
-            onChange={filterChange}
-            value={filtersValue.ffprice}
-          />
-          <p>To price</p>
-          <input
-            name="ftprice"
-            type="text"
-            placeholder="$"
-            onChange={filterChange}
-            value={filtersValue.ftprice}
-          />
-        </div> */}
           <div className={styles.filtersButtons}>
             <button onClick={handleFilter}>Filter!</button>
             <button onClick={handleClearFilter}>Clear Filter</button>
@@ -152,7 +118,7 @@ const ShopForm = () => {
             {pagination.map((value, key) => (
               <ul
                 key={key}
-                className={(currentPage == value && styles.selectedPage) || ""}
+                className={(currentPage === value && styles.selectedPage) || ""}
                 onClick={() => setPageHeandler(value)}
               >
                 {value}
